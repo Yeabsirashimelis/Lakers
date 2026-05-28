@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-midnight: #0a0a0a;
+  --color-charcoal: #1a1a1a;
+  --color-espresso: #2c1810;
+  --color-cream: #f5f0e8;
+  --color-warm-cream: #faf6f0;
+  --color-amber: #d4a574;
+  --color-soft-amber: #c9956b;
+  --color-burgundy: #722f37;
+  --color-deep-burgundy: #5c1a23;
+  --color-warm-orange: #d4764e;
+  --color-muted-gold: #b8976a;
+
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-inter);
+  --font-heading-am: var(--font-noto-serif-ethiopic);
+  --font-body-am: var(--font-noto-sans-ethiopic);
+}
+
+/* Smooth scrolling base */
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-midnight);
+  color: var(--color-cream);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Selection colors */
+::selection {
+  background-color: var(--color-amber);
+  color: var(--color-midnight);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-midnight);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-amber);
+}
+
+/* Utility animations */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes scroll-indicator {
+  0% { opacity: 0; transform: translateY(-8px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-scroll-indicator {
+  animation: scroll-indicator 2s ease-in-out infinite;
+}
+
+/* Font class for Amharic locale */
+.locale-am {
+  --font-heading: var(--font-heading-am);
+  --font-body: var(--font-body-am);
+}

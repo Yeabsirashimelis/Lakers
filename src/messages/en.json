@@ -1,0 +1,188 @@
+{
+  "metadata": {
+    "title": "Lakers — Premium Restaurant & Café in Bole, Addis Ababa",
+    "description": "Experience the finest gourmet burgers, artisan coffee, and modern fusion cuisine at Lakers in Bole, Addis Ababa."
+  },
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "about": "About",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "reserve": "Reserve a Table",
+    "language": "አማ"
+  },
+  "hero": {
+    "title": "LAKERS",
+    "subtitle": "Where Flavor Meets Atmosphere",
+    "cta": "Explore the Menu",
+    "scroll": "Scroll to Discover"
+  },
+  "brandStory": {
+    "label": "Our Story",
+    "heading": "Born in the Heart of Bole",
+    "p1": "In the vibrant streets of Bole, where culture meets modernity, Lakers was born from a simple vision — to create a space where extraordinary food meets unforgettable atmosphere.",
+    "p2": "Every dish we serve is a story of passion, crafted with the finest ingredients and presented with cinematic artistry. From our signature burgers to our handcrafted mocktails, each creation is an experience.",
+    "p3": "Lakers is more than a restaurant. It's a destination for those who believe dining should be an art form — a place where every visit becomes a memory."
+  },
+  "signatureFoods": {
+    "label": "The Menu",
+    "heading": "Crafted with Passion",
+    "items": {
+      "burger": {
+        "name": "The Classic Smash",
+        "description": "Double-patty smash burger with aged cheddar, caramelized onions, and our signature Lakers sauce"
+      },
+      "pizza": {
+        "name": "Truffle Margherita",
+        "description": "Wood-fired with San Marzano tomatoes, fresh mozzarella, basil, and black truffle oil"
+      },
+      "dessert": {
+        "name": "Dark Chocolate Fondant",
+        "description": "Rich chocolate lava cake with vanilla bean ice cream and gold leaf garnish"
+      },
+      "fusion": {
+        "name": "Ethiopian Fusion Bowl",
+        "description": "Berbere-spiced grilled chicken with injera croutons, avocado mousse, and tikil gomen"
+      }
+    }
+  },
+  "experience": {
+    "label": "The Experience",
+    "heading": "Feel the Atmosphere",
+    "description": "Step into a world where every detail is designed to captivate your senses — from the warm ambient lighting to the curated playlist that sets the perfect mood."
+  },
+  "signatureDrinks": {
+    "label": "Signature Drinks",
+    "heading": "Crafted to Perfection",
+    "coffee": {
+      "name": "Lakers Signature Latte",
+      "description": "Ethiopian single-origin espresso with vanilla-infused oat milk and a touch of cardamom"
+    },
+    "mocktail": {
+      "name": "Bole Sunset",
+      "description": "Passion fruit, mango, hibiscus syrup, and sparkling water with a smoked rosemary garnish"
+    }
+  },
+  "chef": {
+    "label": "Craftsmanship",
+    "heading": "The Art Behind Every Plate",
+    "steps": {
+      "source": {
+        "title": "Sourced Locally",
+        "description": "We partner with local Ethiopian farmers for the freshest ingredients"
+      },
+      "craft": {
+        "title": "Crafted with Care",
+        "description": "Every dish is prepared with precision and artistic presentation"
+      },
+      "serve": {
+        "title": "Served with Soul",
+        "description": "Our team brings warmth and hospitality to every table"
+      }
+    }
+  },
+  "social": {
+    "label": "Community",
+    "heading": "Join the Lakers Family",
+    "testimonials": {
+      "t1": {
+        "quote": "The atmosphere is unmatched. Every visit feels like a special occasion.",
+        "name": "Sarah M.",
+        "role": "Regular Guest"
+      },
+      "t2": {
+        "quote": "Best burgers in Addis, hands down. The fusion dishes are incredible too.",
+        "name": "Daniel A.",
+        "role": "Food Blogger"
+      },
+      "t3": {
+        "quote": "Lakers has become our go-to spot. The coffee alone is worth the visit.",
+        "name": "Hana T.",
+        "role": "Coffee Enthusiast"
+      }
+    }
+  },
+  "reservation": {
+    "label": "Reserve",
+    "heading": "Reserve Your Experience",
+    "cta": "Book a Table",
+    "description": "Secure your table for an unforgettable dining experience at Lakers."
+  },
+  "menu_page": {
+    "title": "Our Menu",
+    "subtitle": "Discover our carefully crafted selection of gourmet dishes, artisan coffee, and signature drinks.",
+    "categories": {
+      "all": "All",
+      "burgers": "Burgers",
+      "pizzas": "Pizzas",
+      "coffee": "Coffee",
+      "mocktails": "Mocktails",
+      "desserts": "Desserts",
+      "brunch": "Brunch",
+      "fusion": "Fusion"
+    }
+  },
+  "about_page": {
+    "title": "Our Story",
+    "subtitle": "From a dream to the heart of Bole — discover the journey behind Lakers.",
+    "philosophy": {
+      "label": "Philosophy",
+      "heading": "More Than Just Food",
+      "p1": "At Lakers, we believe that dining is an art form. Every element of your experience — from the first visual impression of your dish to the last sip of your drink — is designed to create lasting memories.",
+      "p2": "Our kitchen blends global culinary techniques with Ethiopian soul. We source locally, cook passionately, and serve with heart. This is where tradition meets innovation."
+    },
+    "timeline": {
+      "label": "Our Journey",
+      "heading": "Milestones",
+      "events": {
+        "e1": { "year": "2020", "title": "The Vision", "description": "Lakers was conceived as a premium dining concept for Addis Ababa's growing lifestyle scene." },
+        "e2": { "year": "2021", "title": "Doors Open", "description": "We opened our doors in Bole, welcoming our first guests to a new kind of dining experience." },
+        "e3": { "year": "2022", "title": "Menu Evolution", "description": "Introduced our signature fusion dishes, blending Ethiopian flavors with international cuisine." },
+        "e4": { "year": "2023", "title": "Community Hub", "description": "Lakers became a cultural landmark — hosting events, art shows, and becoming Bole's favorite gathering place." },
+        "e5": { "year": "2024", "title": "The Future", "description": "Expanding our vision with new experiences, seasonal menus, and a commitment to culinary excellence." }
+      }
+    },
+    "team": {
+      "label": "The Team",
+      "heading": "The People Behind Lakers",
+      "members": {
+        "m1": { "name": "Chef Abebe", "role": "Head Chef", "description": "15 years of culinary experience across three continents." },
+        "m2": { "name": "Meron K.", "role": "Head Barista", "description": "Ethiopian coffee ceremony meets modern craft techniques." },
+        "m3": { "name": "David L.", "role": "Founder & Creative Director", "description": "The vision behind Lakers' unique blend of food, art, and atmosphere." }
+      }
+    }
+  },
+  "gallery_page": {
+    "title": "Gallery",
+    "subtitle": "A visual journey through the Lakers experience."
+  },
+  "contact_page": {
+    "title": "Get in Touch",
+    "subtitle": "We'd love to hear from you. Visit us, call us, or drop us a message.",
+    "info": {
+      "address": "Bole Road, Addis Ababa, Ethiopia",
+      "phone": "+251 91 234 5678",
+      "email": "hello@lakers.com",
+      "hours": {
+        "label": "Opening Hours",
+        "weekdays": "Mon — Fri: 8:00 AM — 11:00 PM",
+        "weekends": "Sat — Sun: 9:00 AM — 12:00 AM"
+      }
+    },
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "message": "Your Message",
+      "submit": "Send Message",
+      "success": "Thank you! We'll get back to you soon."
+    }
+  },
+  "footer": {
+    "tagline": "Premium Restaurant & Café in Bole, Addis Ababa",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  }
+}
