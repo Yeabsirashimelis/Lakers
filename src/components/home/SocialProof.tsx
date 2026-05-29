@@ -37,7 +37,7 @@ export function SocialProof() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 mb-16 md:mb-24">
           {IMAGES.social.map((src, i) => (
             <FadeInView key={i} delay={Math.min(i * 0.08, 0.4)}>
-              <div className="group relative aspect-square overflow-hidden cursor-pointer">
+              <div className="group relative aspect-square overflow-hidden cursor-pointer" data-cursor="view">
                 <Image
                   src={src}
                   alt={`Lakers moment ${i + 1}`}

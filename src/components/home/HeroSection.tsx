@@ -7,8 +7,8 @@ import { gsap } from "@/lib/gsap-config";
 import { useTranslations } from "next-intl";
 import { IMAGES } from "@/lib/constants";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { splitGraphemes } from "@/lib/text-utils";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -18,52 +18,55 @@ export function HeroSection() {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const t = useTranslations("hero");
+  const isMobile = useIsMobile();
 
   useGSAP(
     () => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (prefersReduced) {
-        // Show everything immediately
-        if (titleRef.current) gsap.set(titleRef.current.querySelectorAll(".hero-char"), { opacity: 1, y: 0 });
+        if (titleRef.current) gsap.set(titleRef.current, { opacity: 1, y: 0 });
         if (subtitleRef.current) gsap.set(subtitleRef.current, { opacity: 1, y: 0 });
         if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 1, y: 0 });
         return;
       }
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" }, delay: 0.3 });
 
+      // Title reveal
       if (titleRef.current) {
-        const chars = titleRef.current.querySelectorAll(".hero-char");
         tl.fromTo(
-          chars,
-          { opacity: 0, y: 80 },
-          { opacity: 1, y: 0, duration: 1, stagger: 0.08 },
-          0.5
+          titleRef.current,
+          { opacity: 0, y: 60, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 1.2 },
+          0
         );
       }
 
+      // Subtitle fade in
       if (subtitleRef.current) {
         tl.fromTo(
           subtitleRef.current,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.3"
+          "-=0.4"
         );
       }
 
+      // CTA fade in
       if (ctaRef.current) {
         tl.fromTo(
           ctaRef.current,
           { opacity: 0, y: 20 },
           { opacity: 1, y: 0, duration: 0.6 },
-          "-=0.2"
+          "-=0.3"
         );
       }
 
+      // Parallax on scroll
       if (sectionRef.current && overlayRef.current) {
         gsap.to(overlayRef.current, {
-          opacity: 0.8,
+          opacity: 0.9,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
@@ -76,14 +79,12 @@ export function HeroSection() {
     { scope: sectionRef }
   );
 
-  const titleChars = splitGraphemes(t("title"));
-
   return (
     <section
       ref={sectionRef}
       className="relative h-dvh w-full overflow-hidden flex items-center justify-center"
     >
-      {/* Background Image */}
+      {/* Background Image (fallback & mobile) */}
       <div className="absolute inset-0">
         <Image
           src={IMAGES.hero.main}
@@ -96,24 +97,67 @@ export function HeroSection() {
         />
       </div>
 
+      {/* Video background for desktop */}
+      {!isMobile && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          poster={IMAGES.hero.main}
+        >
+          <source
+            src="https://videos.pexels.com/video-files/3298572/3298572-uhd_2560_1440_30fps.mp4"
+            type="video/mp4"
+          />
+        </video>
+      )}
+
       {/* Dark overlay */}
       <div
         ref={overlayRef}
-        className="absolute inset-0 bg-gradient-to-b from-midnight/60 via-midnight/40 to-midnight/80"
+        className="absolute inset-0 bg-gradient-to-b from-midnight/70 via-midnight/50 to-midnight/80"
       />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-full overflow-hidden">
-        <h1
-          ref={titleRef}
-          className="font-[family-name:var(--font-heading)] text-[12vw] md:text-[8vw] lg:text-[6vw] font-bold text-warm-cream leading-none tracking-[0.15em]"
-        >
-          {titleChars.map((char, i) => (
-            <span key={i} className="hero-char inline-block opacity-0">
-              {char === " " ? "\u00A0" : char}
-            </span>
-          ))}
-        </h1>
+      <div className="relative z-10 text-center px-6 max-w-full">
+        {/* Text-masked video title — desktop */}
+        {!isMobile ? (
+          <div className="relative">
+            {/* The video that shows through the text */}
+            <h1
+              ref={titleRef}
+              className="font-[family-name:var(--font-heading)] text-[18vw] md:text-[12vw] lg:text-[10vw] font-bold leading-none tracking-[0.15em] text-mask-video opacity-0"
+              style={{
+                backgroundImage: `url(${IMAGES.hero.burger})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              {t("title")}
+            </h1>
+            {/* Subtle outline for depth */}
+            <h1
+              className="absolute inset-0 font-[family-name:var(--font-heading)] text-[18vw] md:text-[12vw] lg:text-[10vw] font-bold leading-none tracking-[0.15em] pointer-events-none"
+              style={{
+                WebkitTextStroke: "1px rgba(212, 165, 116, 0.15)",
+                color: "transparent",
+              }}
+              aria-hidden="true"
+            >
+              {t("title")}
+            </h1>
+          </div>
+        ) : (
+          /* Mobile: simple text, no mask */
+          <h1
+            ref={titleRef}
+            className="font-[family-name:var(--font-heading)] text-[14vw] font-bold text-warm-cream leading-none tracking-[0.15em] opacity-0"
+          >
+            {t("title")}
+          </h1>
+        )}
 
         <p
           ref={subtitleRef}
@@ -134,7 +178,7 @@ export function HeroSection() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
+        transition={{ delay: 2, duration: 1 }}
       >
         <span className="text-[10px] tracking-[0.3em] uppercase text-cream/40 hidden md:block">
           {t("scroll")}

@@ -75,6 +75,7 @@ export default function GalleryPage() {
                 className="group relative overflow-hidden mb-4 cursor-pointer break-inside-avoid"
                 onClick={() => openLightbox(img.src, i)}
                 role="button"
+                data-cursor="view"
                 tabIndex={0}
                 aria-label={`View ${img.alt}`}
                 onKeyDown={(e) => {
