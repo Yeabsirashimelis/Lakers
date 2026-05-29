@@ -9,11 +9,11 @@ import Image from "next/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const EXPERIENCE_IMAGES = [
-  { src: IMAGES.atmosphere.interior1, alt: "Lakers interior", direction: "left" },
-  { src: IMAGES.atmosphere.interior2, alt: "Lakers ambiance", direction: "right" },
-  { src: IMAGES.atmosphere.people1, alt: "Guests enjoying", direction: "left" },
-  { src: IMAGES.atmosphere.ambiance, alt: "Lakers atmosphere", direction: "right" },
-] as const;
+  { src: IMAGES.atmosphere.interior1, alt: "Lakers interior" },
+  { src: IMAGES.atmosphere.interior2, alt: "Lakers ambiance" },
+  { src: IMAGES.atmosphere.people1, alt: "Guests enjoying" },
+  { src: IMAGES.atmosphere.ambiance, alt: "Lakers atmosphere" },
+];
 
 export function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,13 +23,20 @@ export function ExperienceSection() {
     () => {
       if (!sectionRef.current) return;
 
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const images = sectionRef.current.querySelectorAll(".exp-image");
 
       images.forEach((img, i) => {
-        const direction = i % 2 === 0 ? "0 100% 0 0" : "0 0 0 100%";
+        if (prefersReduced) {
+          gsap.set(img, { clipPath: "inset(0 0% 0 0%)" });
+          return;
+        }
+
+        const fromClip = i % 2 === 0 ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)";
+
         gsap.fromTo(
           img,
-          { clipPath: `inset(${direction})` },
+          { clipPath: fromClip },
           {
             clipPath: "inset(0 0% 0 0%)",
             duration: 1.2,
@@ -48,7 +55,7 @@ export function ExperienceSection() {
   );
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-charcoal">
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-charcoal section-contain">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
           label={t("label")}

@@ -3,8 +3,9 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
-import { gsap, ScrollTrigger } from "@/lib/gsap-config";
+import { gsap } from "@/lib/gsap-config";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface ParallaxImageProps {
   src: string;
@@ -13,6 +14,7 @@ interface ParallaxImageProps {
   containerClassName?: string;
   speed?: number;
   priority?: boolean;
+  sizes?: string;
 }
 
 export function ParallaxImage({
@@ -22,13 +24,15 @@ export function ParallaxImage({
   containerClassName,
   speed = 0.3,
   priority = false,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
 }: ParallaxImageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useGSAP(
     () => {
-      if (!containerRef.current || !imageRef.current) return;
+      if (isMobile || !containerRef.current || !imageRef.current) return;
 
       gsap.fromTo(
         imageRef.current,
@@ -46,7 +50,7 @@ export function ParallaxImage({
         }
       );
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [isMobile] }
   );
 
   return (
@@ -54,13 +58,13 @@ export function ParallaxImage({
       ref={containerRef}
       className={cn("relative overflow-hidden", containerClassName)}
     >
-      <div ref={imageRef} className="relative w-full h-[120%] -top-[10%]">
+      <div ref={imageRef} className={cn("relative w-full", isMobile ? "h-full" : "h-[120%] -top-[10%]")}>
         <Image
           src={src}
           alt={alt}
           fill
           className={cn("object-cover", className)}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes={sizes}
           priority={priority}
         />
       </div>

@@ -161,8 +161,11 @@
     "title": "አግኙን",
     "subtitle": "ከእርስዎ መስማት እንፈልጋለን። ይጎብኙን፣ ይደውሉልን ወይም መልዕክት ያስቀምጡ።",
     "info": {
+      "addressLabel": "አድራሻ",
       "address": "ቦሌ መንገድ፣ አዲስ አበባ፣ ኢትዮጵያ",
+      "phoneLabel": "ስልክ",
       "phone": "+251 91 234 5678",
+      "emailLabel": "ኢሜይል",
       "email": "hello@lakers.com",
       "hours": {
         "label": "የስራ ሰዓታት",

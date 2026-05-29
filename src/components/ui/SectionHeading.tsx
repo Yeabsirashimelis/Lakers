@@ -33,7 +33,7 @@ export function SectionHeading({
           <span
             className={cn(
               "inline-block text-xs tracking-[0.3em] uppercase mb-4",
-              light ? "text-amber" : "text-amber"
+              light ? "text-warm-cream" : "text-amber"
             )}
           >
             {label}
@@ -43,8 +43,8 @@ export function SectionHeading({
       <FadeInView delay={0.1}>
         <h2
           className={cn(
-            "font-[family-name:var(--font-heading)] text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
-            light ? "text-warm-cream" : "text-warm-cream"
+            "font-[family-name:var(--font-heading)] text-3xl md:text-4xl lg:text-5xl font-bold leading-tight",
+            light ? "text-cream" : "text-warm-cream"
           )}
         >
           {heading}
@@ -54,7 +54,7 @@ export function SectionHeading({
         <FadeInView delay={0.2}>
           <p
             className={cn(
-              "mt-6 text-lg max-w-2xl leading-relaxed",
+              "mt-6 text-base md:text-lg max-w-2xl leading-relaxed",
               align === "center" && "mx-auto",
               light ? "text-cream/70" : "text-cream/60"
             )}

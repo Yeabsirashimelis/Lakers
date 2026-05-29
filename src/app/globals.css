@@ -19,9 +19,14 @@
   --font-body-am: var(--font-noto-sans-ethiopic);
 }
 
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Smooth scrolling base */
 html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  scroll-behavior: auto;
 }
 
 html.lenis, html.lenis body {
@@ -44,7 +49,6 @@ body {
   background-color: var(--color-midnight);
   color: var(--color-cream);
   font-family: var(--font-body), sans-serif;
-  overflow-x: hidden;
 }
 
 /* Selection colors */
@@ -53,7 +57,7 @@ body {
   color: var(--color-midnight);
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - Webkit */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -71,29 +75,17 @@ body {
   background: var(--color-amber);
 }
 
+/* Scrollbar styling - Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-charcoal) var(--color-midnight);
+}
+
 /* Utility animations */
-@keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
 @keyframes scroll-indicator {
   0% { opacity: 0; transform: translateY(-8px); }
   50% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(8px); }
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 3s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
 }
 
 .animate-scroll-indicator {
@@ -104,4 +96,20 @@ body {
 .locale-am {
   --font-heading: var(--font-heading-am);
   --font-body: var(--font-body-am);
+}
+
+/* Reduced motion: make all animated content visible immediately */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Overflow containment for sections */
+.section-contain {
+  overflow-x: clip;
+  overflow-y: visible;
 }

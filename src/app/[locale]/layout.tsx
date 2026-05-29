@@ -7,6 +7,7 @@ import { AnimationProvider } from "@/providers/AnimationProvider";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
+import { SetLocaleOnHtml } from "@/components/layout/SetLocaleOnHtml";
 
 type Props = {
   children: React.ReactNode;
@@ -37,6 +38,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <div className={isAmharic ? "locale-am" : ""}>
+      <SetLocaleOnHtml locale={locale} isAmharic={isAmharic} />
       <NextIntlClientProvider messages={messages}>
         <AnimationProvider>
           <ScrollProgress />

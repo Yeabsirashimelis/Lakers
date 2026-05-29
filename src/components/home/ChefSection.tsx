@@ -18,16 +18,19 @@ export function ChefSection() {
     () => {
       if (!sectionRef.current) return;
 
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
+
       const steps = sectionRef.current.querySelectorAll(".chef-step");
       const lines = sectionRef.current.querySelectorAll(".chef-line");
 
       steps.forEach((step, i) => {
         gsap.fromTo(
           step,
-          { opacity: 0, x: 30 },
+          { opacity: 0, y: 20 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 0.8,
             scrollTrigger: {
               trigger: step,
@@ -61,7 +64,7 @@ export function ChefSection() {
   );
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-espresso/30">
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-espresso/30 section-contain">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image */}
@@ -69,7 +72,7 @@ export function ChefSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src={IMAGES.team.chef}
-                alt="Chef at work"
+                alt={t("heading")}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -84,7 +87,7 @@ export function ChefSection() {
               <span className="text-xs tracking-[0.3em] uppercase text-amber mb-4 block">
                 {t("label")}
               </span>
-              <h2 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl font-bold text-warm-cream mb-12">
+              <h2 className="font-[family-name:var(--font-heading)] text-3xl md:text-4xl lg:text-5xl font-bold text-warm-cream mb-12">
                 {t("heading")}
               </h2>
             </FadeInView>
@@ -97,7 +100,7 @@ export function ChefSection() {
                       {i + 1}
                     </div>
                     <div>
-                      <h3 className="font-[family-name:var(--font-heading)] text-xl text-warm-cream mb-2">
+                      <h3 className="font-[family-name:var(--font-heading)] text-lg md:text-xl text-warm-cream mb-2">
                         {t(`steps.${step}.title`)}
                       </h3>
                       <p className="text-cream/50 text-sm leading-relaxed">
@@ -106,7 +109,7 @@ export function ChefSection() {
                     </div>
                   </div>
                   {i < STEPS.length - 1 && (
-                    <div className="chef-line ml-5 w-px h-8 bg-amber/20 origin-top" />
+                    <div className="chef-line ml-5 w-px h-8 bg-amber/20" style={{ transformOrigin: "top" }} />
                   )}
                 </div>
               ))}

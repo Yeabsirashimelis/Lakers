@@ -34,11 +34,11 @@ export default function MenuPage() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={IMAGES.food.burger1}
-            alt="Menu hero"
+            alt={t("title")}
             fill
             className="object-cover"
             priority
@@ -48,12 +48,12 @@ export default function MenuPage() {
         </div>
         <div className="relative z-10 text-center px-6">
           <FadeInView>
-            <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-7xl font-bold text-warm-cream tracking-[0.1em]">
+            <h1 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl lg:text-7xl font-bold text-warm-cream tracking-[0.1em]">
               {t("title")}
             </h1>
           </FadeInView>
           <FadeInView delay={0.2}>
-            <p className="mt-4 text-cream/60 text-lg max-w-xl mx-auto">
+            <p className="mt-4 text-cream/60 text-base md:text-lg max-w-xl mx-auto">
               {t("subtitle")}
             </p>
           </FadeInView>
@@ -61,15 +61,15 @@ export default function MenuPage() {
       </section>
 
       {/* Categories + Grid */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-midnight">
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-midnight section-contain">
         <div className="max-w-7xl mx-auto">
-          {/* Category tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
+          {/* Category tabs - horizontal scroll on mobile */}
+          <div className="flex gap-2 md:gap-3 mb-16 overflow-x-auto pb-4 md:pb-0 md:flex-wrap md:justify-center scrollbar-none -mx-6 px-6 md:mx-0 md:px-0">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className="relative px-5 py-2 text-xs tracking-[0.15em] uppercase transition-colors duration-300"
+                className="relative px-4 md:px-5 py-2 text-xs tracking-[0.15em] uppercase transition-colors duration-300 flex-shrink-0"
               >
                 <span
                   className={
@@ -101,10 +101,10 @@ export default function MenuPage() {
                 <motion.div
                   key={item.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.3) }}
                 >
                   <GlowCard>
                     <div className="group">
@@ -118,12 +118,12 @@ export default function MenuPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-charcoal to-transparent" />
                       </div>
-                      <div className="p-6">
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-[family-name:var(--font-heading)] text-xl text-warm-cream">
+                      <div className="p-5 md:p-6">
+                        <div className="flex items-start justify-between mb-2 gap-3">
+                          <h3 className="font-[family-name:var(--font-heading)] text-lg md:text-xl text-warm-cream">
                             {item.nameKey}
                           </h3>
-                          <span className="text-amber text-sm tracking-wider flex-shrink-0 ml-4">
+                          <span className="text-amber text-sm tracking-wider flex-shrink-0">
                             {item.price}
                           </span>
                         </div>

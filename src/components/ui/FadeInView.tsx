@@ -36,15 +36,16 @@ export function FadeInView({
   as = "div",
 }: FadeInViewProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, margin: "-80px" });
-  const Component = motion.create(as);
+  const isInView = useInView(ref, { once, margin: "-40px" });
 
   const offset = directionMap[direction];
   const x = distance !== undefined ? (offset.x > 0 ? distance : offset.x < 0 ? -distance : 0) : offset.x;
   const y = distance !== undefined ? (offset.y > 0 ? distance : offset.y < 0 ? -distance : 0) : offset.y;
 
+  const MotionComponent = motion[as];
+
   return (
-    <Component
+    <MotionComponent
       ref={ref}
       className={cn(className)}
       initial={{ opacity: 0, x, y }}
@@ -56,6 +57,6 @@ export function FadeInView({
       }}
     >
       {children}
-    </Component>
+    </MotionComponent>
   );
 }

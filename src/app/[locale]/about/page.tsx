@@ -10,7 +10,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FadeInView } from "@/components/ui/FadeInView";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
-import { Divider } from "@/components/ui/Divider";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 const TIMELINE_KEYS = ["e1", "e2", "e3", "e4", "e5"] as const;
 const TEAM_KEYS = ["m1", "m2", "m3"] as const;
@@ -19,10 +19,14 @@ const TEAM_IMAGES = [IMAGES.team.chef, IMAGES.team.barista, IMAGES.team.founder]
 export default function AboutPage() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("about_page");
+  const isMobile = useIsMobile();
 
   useGSAP(
     () => {
       if (!timelineRef.current) return;
+
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
 
       const items = timelineRef.current.querySelectorAll(".timeline-item");
       const line = timelineRef.current.querySelector(".timeline-line-fill");
@@ -44,13 +48,13 @@ export default function AboutPage() {
         );
       }
 
-      items.forEach((item, i) => {
+      items.forEach((item) => {
         gsap.fromTo(
           item,
-          { opacity: 0, x: i % 2 === 0 ? -40 : 40 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 0.8,
             scrollTrigger: {
               trigger: item,
@@ -61,17 +65,17 @@ export default function AboutPage() {
         );
       });
     },
-    { scope: timelineRef }
+    { scope: timelineRef, dependencies: [isMobile] }
   );
 
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] md:h-[60vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={IMAGES.atmosphere.interior2}
-            alt="About Lakers"
+            alt={t("title")}
             fill
             className="object-cover"
             priority
@@ -81,12 +85,12 @@ export default function AboutPage() {
         </div>
         <div className="relative z-10 text-center px-6">
           <FadeInView>
-            <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-7xl font-bold text-warm-cream tracking-[0.1em]">
+            <h1 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl lg:text-7xl font-bold text-warm-cream tracking-[0.1em]">
               {t("title")}
             </h1>
           </FadeInView>
           <FadeInView delay={0.2}>
-            <p className="mt-4 text-cream/60 text-lg max-w-xl mx-auto">
+            <p className="mt-4 text-cream/60 text-base md:text-lg max-w-xl mx-auto">
               {t("subtitle")}
             </p>
           </FadeInView>
@@ -94,30 +98,31 @@ export default function AboutPage() {
       </section>
 
       {/* Philosophy */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-charcoal">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-charcoal section-contain">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <ParallaxImage
             src={IMAGES.atmosphere.ambiance}
-            alt="Lakers philosophy"
+            alt={t("philosophy.heading")}
             containerClassName="aspect-[4/5]"
             speed={0.2}
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <div>
             <FadeInView>
               <span className="text-xs tracking-[0.3em] uppercase text-amber mb-4 block">
                 {t("philosophy.label")}
               </span>
-              <h2 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl font-bold text-warm-cream mb-8">
+              <h2 className="font-[family-name:var(--font-heading)] text-3xl md:text-4xl lg:text-5xl font-bold text-warm-cream mb-8">
                 {t("philosophy.heading")}
               </h2>
             </FadeInView>
             <FadeInView delay={0.1}>
-              <p className="text-cream/60 text-lg leading-relaxed mb-6">
+              <p className="text-cream/60 text-base md:text-lg leading-relaxed mb-6">
                 {t("philosophy.p1")}
               </p>
             </FadeInView>
             <FadeInView delay={0.2}>
-              <p className="text-cream/60 text-lg leading-relaxed">
+              <p className="text-cream/60 text-base md:text-lg leading-relaxed">
                 {t("philosophy.p2")}
               </p>
             </FadeInView>
@@ -126,7 +131,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-midnight">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-midnight section-contain">
         <div className="max-w-4xl mx-auto">
           <SectionHeading
             label={t("timeline.label")}
@@ -135,17 +140,17 @@ export default function AboutPage() {
 
           <div ref={timelineRef} className="relative mt-16">
             {/* Timeline line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-cream/10 -translate-x-1/2">
+            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-cream/10 md:-translate-x-1/2">
               <div className="timeline-line-fill absolute inset-0 w-full bg-amber/40 origin-top" />
             </div>
 
             {TIMELINE_KEYS.map((key, i) => (
               <div
                 key={key}
-                className={`timeline-item relative flex items-start gap-8 mb-16 ${
-                  i % 2 === 0
-                    ? "md:flex-row"
-                    : "md:flex-row-reverse"
+                className={`timeline-item relative flex items-start gap-8 ${
+                  i < TIMELINE_KEYS.length - 1 ? "mb-12 md:mb-16" : ""
+                } ${
+                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 }`}
               >
                 {/* Dot */}
@@ -157,10 +162,10 @@ export default function AboutPage() {
                     i % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"
                   }`}
                 >
-                  <span className="text-amber font-[family-name:var(--font-heading)] text-2xl">
+                  <span className="text-amber font-[family-name:var(--font-heading)] text-xl md:text-2xl">
                     {t(`timeline.events.${key}.year`)}
                   </span>
-                  <h3 className="font-[family-name:var(--font-heading)] text-xl text-warm-cream mt-2 mb-2">
+                  <h3 className="font-[family-name:var(--font-heading)] text-lg md:text-xl text-warm-cream mt-2 mb-2">
                     {t(`timeline.events.${key}.title`)}
                   </h3>
                   <p className="text-cream/50 text-sm leading-relaxed">
@@ -174,16 +179,16 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-charcoal">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-charcoal section-contain">
         <div className="max-w-7xl mx-auto">
           <SectionHeading
             label={t("team.label")}
             heading={t("team.heading")}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {TEAM_KEYS.map((key, i) => (
-              <FadeInView key={key} delay={i * 0.15}>
+              <FadeInView key={key} delay={Math.min(i * 0.15, 0.3)}>
                 <div className="group">
                   <div className="relative aspect-[3/4] overflow-hidden mb-6">
                     <Image
@@ -191,11 +196,11 @@ export default function AboutPage() {
                       alt={t(`team.members.${key}.name`)}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-midnight/20 group-hover:bg-midnight/0 transition-colors duration-500" />
                   </div>
-                  <h3 className="font-[family-name:var(--font-heading)] text-xl text-warm-cream mb-1">
+                  <h3 className="font-[family-name:var(--font-heading)] text-lg md:text-xl text-warm-cream mb-1">
                     {t(`team.members.${key}.name`)}
                   </h3>
                   <p className="text-amber text-xs tracking-[0.15em] uppercase mb-3">
@@ -210,8 +215,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <Divider className="bg-midnight py-0" />
     </PageTransition>
   );
 }

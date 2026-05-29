@@ -15,25 +15,14 @@ interface ImageRevealProps {
   delay?: number;
   duration?: number;
   priority?: boolean;
+  sizes?: string;
 }
 
 const clipPaths: Record<string, { from: string; to: string }> = {
-  left: {
-    from: "inset(0 100% 0 0)",
-    to: "inset(0 0% 0 0)",
-  },
-  right: {
-    from: "inset(0 0 0 100%)",
-    to: "inset(0 0 0 0%)",
-  },
-  top: {
-    from: "inset(0 0 100% 0)",
-    to: "inset(0 0 0% 0)",
-  },
-  bottom: {
-    from: "inset(100% 0 0 0)",
-    to: "inset(0% 0 0 0)",
-  },
+  left: { from: "inset(0 100% 0 0)", to: "inset(0 0% 0 0)" },
+  right: { from: "inset(0 0 0 100%)", to: "inset(0 0 0 0%)" },
+  top: { from: "inset(0 0 100% 0)", to: "inset(0 0 0% 0)" },
+  bottom: { from: "inset(100% 0 0 0)", to: "inset(0% 0 0 0)" },
 };
 
 export function ImageReveal({
@@ -45,6 +34,7 @@ export function ImageReveal({
   delay = 0,
   duration = 1.2,
   priority = false,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
 }: ImageRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,13 +42,17 @@ export function ImageReveal({
     () => {
       if (!containerRef.current) return;
 
-      const paths = clipPaths[direction];
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) {
+        gsap.set(containerRef.current, { clipPath: clipPaths[direction].to });
+        return;
+      }
 
       gsap.fromTo(
         containerRef.current,
-        { clipPath: paths.from },
+        { clipPath: clipPaths[direction].from },
         {
-          clipPath: paths.to,
+          clipPath: clipPaths[direction].to,
           duration,
           delay,
           ease: "power3.inOut",
@@ -83,7 +77,7 @@ export function ImageReveal({
         alt={alt}
         fill
         className={cn("object-cover", className)}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        sizes={sizes}
         priority={priority}
       />
     </div>

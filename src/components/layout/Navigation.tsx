@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -17,12 +17,14 @@ export function Navigation() {
   const nextRouter = useNextRouter();
   const params = useParams();
   const currentLocale = (params.locale as string) || "en";
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -37,18 +39,49 @@ export function Navigation() {
     };
   }, [isOpen]);
 
-  const toggleLocale = () => {
+  // Keyboard handling for mobile overlay
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+      }
+
+      // Focus trap
+      if (e.key === "Tab" && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
+  const toggleLocale = useCallback(() => {
     const newLocale = currentLocale === "en" ? "am" : "en";
-    // pathname from next-intl's usePathname is without locale prefix (e.g. "/" or "/menu")
     nextRouter.push(`/${newLocale}${pathname === "/" ? "" : pathname}`);
-  };
+  }, [currentLocale, pathname, nextRouter]);
 
   return (
     <>
       {/* Fixed header bar */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-500",
           isScrolled
             ? "bg-midnight/90 backdrop-blur-md border-b border-cream/5"
             : "bg-transparent"
@@ -64,7 +97,7 @@ export function Navigation() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Main navigation">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.key}
@@ -92,7 +125,8 @@ export function Navigation() {
           <div className="flex items-center gap-4">
             <button
               onClick={toggleLocale}
-              className="text-xs tracking-[0.15em] uppercase text-cream/60 hover:text-amber transition-colors duration-300 hidden md:block"
+              className="text-xs tracking-[0.15em] uppercase text-cream/60 hover:text-amber transition-colors duration-300 hidden lg:block"
+              aria-label={currentLocale === "en" ? "Switch to Amharic" : "Switch to English"}
             >
               {t("language")}
             </button>
@@ -106,13 +140,15 @@ export function Navigation() {
 
             {/* Hamburger */}
             <button
+              ref={toggleRef}
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden relative z-60 w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-              aria-label="Toggle menu"
+              className="lg:hidden relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-[6px]"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
             >
               <motion.span
                 className="block w-6 h-px bg-cream"
-                animate={isOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+                animate={isOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.3 }}
               />
               <motion.span
@@ -122,7 +158,7 @@ export function Navigation() {
               />
               <motion.span
                 className="block w-6 h-px bg-cream"
-                animate={isOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+                animate={isOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.3 }}
               />
             </button>
@@ -134,13 +170,17 @@ export function Navigation() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={menuRef}
             className="fixed inset-0 z-40 bg-midnight flex items-center justify-center"
             variants={navOverlay}
             initial="closed"
             animate="open"
             exit="closed"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
-            <nav className="flex flex-col items-center gap-8">
+            <nav className="flex flex-col items-center gap-8" aria-label="Mobile navigation">
               {NAV_LINKS.map((link, i) => (
                 <motion.div
                   key={link.key}
@@ -179,6 +219,7 @@ export function Navigation() {
                     setIsOpen(false);
                   }}
                   className="mt-4 text-sm tracking-[0.2em] uppercase text-cream/60 hover:text-amber transition-colors duration-300 border border-cream/20 px-6 py-2"
+                  aria-label={currentLocale === "en" ? "Switch to Amharic" : "Switch to English"}
                 >
                   {t("language")}
                 </button>

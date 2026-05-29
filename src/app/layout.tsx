@@ -15,15 +15,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`
         ${playfair.variable}
         ${inter.variable}
         ${notoSansEthiopic.variable}
         ${notoSerifEthiopic.variable}
-        h-full antialiased
+        antialiased
       `}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-dvh flex flex-col">
         {children}
       </body>
     </html>

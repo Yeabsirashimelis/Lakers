@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap-config";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { IMAGES } from "@/lib/constants";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { splitGraphemes } from "@/lib/text-utils";
 import Image from "next/image";
 
 export function HeroSection() {
@@ -21,20 +21,28 @@ export function HeroSection() {
 
   useGSAP(
     () => {
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReduced) {
+        // Show everything immediately
+        if (titleRef.current) gsap.set(titleRef.current.querySelectorAll(".hero-char"), { opacity: 1, y: 0 });
+        if (subtitleRef.current) gsap.set(subtitleRef.current, { opacity: 1, y: 0 });
+        if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 1, y: 0 });
+        return;
+      }
+
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      // Title letter-by-letter reveal
       if (titleRef.current) {
         const chars = titleRef.current.querySelectorAll(".hero-char");
         tl.fromTo(
           chars,
-          { opacity: 0, y: 80, rotateX: -90 },
-          { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.08 },
+          { opacity: 0, y: 80 },
+          { opacity: 1, y: 0, duration: 1, stagger: 0.08 },
           0.5
         );
       }
 
-      // Subtitle fade in
       if (subtitleRef.current) {
         tl.fromTo(
           subtitleRef.current,
@@ -44,7 +52,6 @@ export function HeroSection() {
         );
       }
 
-      // CTA fade in
       if (ctaRef.current) {
         tl.fromTo(
           ctaRef.current,
@@ -54,8 +61,7 @@ export function HeroSection() {
         );
       }
 
-      // Parallax on scroll
-      if (sectionRef.current) {
+      if (sectionRef.current && overlayRef.current) {
         gsap.to(overlayRef.current, {
           opacity: 0.8,
           scrollTrigger: {
@@ -70,12 +76,12 @@ export function HeroSection() {
     { scope: sectionRef }
   );
 
-  const titleChars = t("title").split("");
+  const titleChars = splitGraphemes(t("title"));
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center"
+      className="relative h-dvh w-full overflow-hidden flex items-center justify-center"
     >
       {/* Background Image */}
       <div className="absolute inset-0">
@@ -97,21 +103,21 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6">
+      <div className="relative z-10 text-center px-6 max-w-full overflow-hidden">
         <h1
           ref={titleRef}
-          className="font-[family-name:var(--font-heading)] text-[15vw] md:text-[10vw] lg:text-[8vw] font-bold text-warm-cream leading-none tracking-[0.15em] perspective-[1000px]"
+          className="font-[family-name:var(--font-heading)] text-[12vw] md:text-[8vw] lg:text-[6vw] font-bold text-warm-cream leading-none tracking-[0.15em]"
         >
           {titleChars.map((char, i) => (
-            <span key={i} className="hero-char inline-block">
-              {char}
+            <span key={i} className="hero-char inline-block opacity-0">
+              {char === " " ? "\u00A0" : char}
             </span>
           ))}
         </h1>
 
         <p
           ref={subtitleRef}
-          className="mt-6 text-lg md:text-xl text-cream/80 tracking-[0.2em] uppercase font-light opacity-0"
+          className="mt-6 text-base md:text-lg lg:text-xl text-cream/80 tracking-[0.15em] uppercase font-light opacity-0"
         >
           {t("subtitle")}
         </p>
@@ -130,7 +136,7 @@ export function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
       >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-cream/40">
+        <span className="text-[10px] tracking-[0.3em] uppercase text-cream/40 hidden md:block">
           {t("scroll")}
         </span>
         <div className="w-px h-12 relative overflow-hidden">

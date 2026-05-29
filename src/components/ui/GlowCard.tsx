@@ -13,6 +13,7 @@ export function GlowCard({ children, className }: GlowCardProps) {
     <motion.div
       className={cn(
         "relative group bg-charcoal border border-cream/5 overflow-hidden",
+        "hover:border-amber/20 transition-colors duration-500",
         className
       )}
       whileHover={{ y: -4 }}
@@ -22,8 +23,6 @@ export function GlowCard({ children, className }: GlowCardProps) {
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-amber/5 via-transparent to-burgundy/5" />
       </div>
-      {/* Border glow */}
-      <div className="absolute inset-0 border border-amber/0 group-hover:border-amber/20 transition-colors duration-500 pointer-events-none" />
       <div className="relative z-10">{children}</div>
     </motion.div>
   );

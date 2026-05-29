@@ -161,8 +161,11 @@
     "title": "Get in Touch",
     "subtitle": "We'd love to hear from you. Visit us, call us, or drop us a message.",
     "info": {
+      "addressLabel": "Address",
       "address": "Bole Road, Addis Ababa, Ethiopia",
+      "phoneLabel": "Phone",
       "phone": "+251 91 234 5678",
+      "emailLabel": "Email",
       "email": "hello@lakers.com",
       "hours": {
         "label": "Opening Hours",

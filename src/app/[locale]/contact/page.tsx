@@ -22,23 +22,23 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-6 md:px-12 bg-midnight text-center">
         <FadeInView>
-          <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-7xl font-bold text-warm-cream tracking-[0.1em]">
+          <h1 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl lg:text-7xl font-bold text-warm-cream tracking-[0.1em]">
             {t("title")}
           </h1>
         </FadeInView>
         <FadeInView delay={0.2}>
-          <p className="mt-4 text-cream/60 text-lg max-w-xl mx-auto">
+          <p className="mt-4 text-cream/60 text-base md:text-lg max-w-xl mx-auto">
             {t("subtitle")}
           </p>
         </FadeInView>
       </section>
 
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-midnight">
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-midnight section-contain">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Contact Info */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <FadeInView>
-              <GlowCard className="p-8">
+              <GlowCard className="p-6 md:p-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full border border-amber/30 flex items-center justify-center flex-shrink-0 mt-1">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber" strokeWidth="1.5">
@@ -47,7 +47,9 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-[family-name:var(--font-heading)] text-lg text-warm-cream mb-1">Address</h3>
+                    <h3 className="font-[family-name:var(--font-heading)] text-base md:text-lg text-warm-cream mb-1">
+                      {t("info.addressLabel")}
+                    </h3>
                     <p className="text-cream/50 text-sm">{t("info.address")}</p>
                   </div>
                 </div>
@@ -55,7 +57,7 @@ export default function ContactPage() {
             </FadeInView>
 
             <FadeInView delay={0.1}>
-              <GlowCard className="p-8">
+              <GlowCard className="p-6 md:p-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full border border-amber/30 flex items-center justify-center flex-shrink-0 mt-1">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber" strokeWidth="1.5">
@@ -63,7 +65,9 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-[family-name:var(--font-heading)] text-lg text-warm-cream mb-1">Phone</h3>
+                    <h3 className="font-[family-name:var(--font-heading)] text-base md:text-lg text-warm-cream mb-1">
+                      {t("info.phoneLabel")}
+                    </h3>
                     <p className="text-cream/50 text-sm">{t("info.phone")}</p>
                   </div>
                 </div>
@@ -71,7 +75,7 @@ export default function ContactPage() {
             </FadeInView>
 
             <FadeInView delay={0.15}>
-              <GlowCard className="p-8">
+              <GlowCard className="p-6 md:p-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full border border-amber/30 flex items-center justify-center flex-shrink-0 mt-1">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber" strokeWidth="1.5">
@@ -80,7 +84,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-[family-name:var(--font-heading)] text-lg text-warm-cream mb-1">
+                    <h3 className="font-[family-name:var(--font-heading)] text-base md:text-lg text-warm-cream mb-1">
                       {t("info.hours.label")}
                     </h3>
                     <p className="text-cream/50 text-sm">{t("info.hours.weekdays")}</p>
@@ -91,7 +95,7 @@ export default function ContactPage() {
             </FadeInView>
 
             <FadeInView delay={0.2}>
-              <GlowCard className="p-8">
+              <GlowCard className="p-6 md:p-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full border border-amber/30 flex items-center justify-center flex-shrink-0 mt-1">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber" strokeWidth="1.5">
@@ -100,7 +104,9 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-[family-name:var(--font-heading)] text-lg text-warm-cream mb-1">Email</h3>
+                    <h3 className="font-[family-name:var(--font-heading)] text-base md:text-lg text-warm-cream mb-1">
+                      {t("info.emailLabel")}
+                    </h3>
                     <p className="text-cream/50 text-sm">{t("info.email")}</p>
                   </div>
                 </div>
@@ -109,7 +115,7 @@ export default function ContactPage() {
 
             {/* Social links */}
             <FadeInView delay={0.25}>
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-wrap gap-3 pt-4">
                 {Object.entries(SOCIAL_LINKS).map(([name, url]) => (
                   <a
                     key={name}
@@ -117,6 +123,7 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-4 py-2 border border-cream/10 text-cream/50 text-xs tracking-[0.15em] uppercase hover:border-amber/40 hover:text-amber transition-all duration-300"
+                    aria-label={`Follow us on ${name}`}
                   >
                     {name}
                   </a>
@@ -134,18 +141,18 @@ export default function ContactPage() {
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.5!2d38.78!3d9.01!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMDAnMzYuMCJOIDM4wrA0Nic0OC4wIkU!5e0!3m2!1sen!2set!4v1"
                   width="100%"
                   height="100%"
-                  className="absolute inset-0 border-0 opacity-80 grayscale"
+                  className="absolute inset-0 border-0 opacity-90"
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Lakers location"
+                  title="Lakers location on Google Maps"
                 />
               </div>
             </FadeInView>
 
             {/* Form */}
             <FadeInView delay={0.2}>
-              <GlowCard className="p-8">
+              <GlowCard className="p-6 md:p-8">
                 {submitted ? (
                   <div className="text-center py-8">
                     <p className="font-[family-name:var(--font-heading)] text-xl text-amber mb-2">
@@ -155,7 +162,10 @@ export default function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
+                      <label htmlFor="contact-name" className="sr-only">{t("form.name")}</label>
                       <input
+                        id="contact-name"
+                        name="name"
                         type="text"
                         placeholder={t("form.name")}
                         required
@@ -163,7 +173,10 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
+                      <label htmlFor="contact-email" className="sr-only">{t("form.email")}</label>
                       <input
+                        id="contact-email"
+                        name="email"
                         type="email"
                         placeholder={t("form.email")}
                         required
@@ -171,14 +184,17 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
+                      <label htmlFor="contact-message" className="sr-only">{t("form.message")}</label>
                       <textarea
+                        id="contact-message"
+                        name="message"
                         placeholder={t("form.message")}
                         required
                         rows={4}
                         className="w-full bg-transparent border-b border-cream/10 pb-3 text-cream placeholder:text-cream/30 focus:border-amber/50 focus:outline-none transition-colors duration-300 text-sm resize-none"
                       />
                     </div>
-                    <MagneticButton onClick={() => {}}>
+                    <MagneticButton type="submit">
                       {t("form.submit")}
                     </MagneticButton>
                   </form>
