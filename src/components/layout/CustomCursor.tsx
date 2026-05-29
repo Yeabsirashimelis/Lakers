@@ -18,6 +18,10 @@ export function CustomCursor() {
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
+  // Trailing dot springs — must be called unconditionally (Rules of Hooks)
+  const trailX = useSpring(mouseX, { damping: 40, stiffness: 200 });
+  const trailY = useSpring(mouseY, { damping: 40, stiffness: 200 });
+
   useEffect(() => {
     if (isMobile) return;
 
@@ -30,7 +34,6 @@ export function CustomCursor() {
     const handleMouseLeave = () => setVisible(false);
     const handleMouseEnter = () => setVisible(true);
 
-    // Detect interactive elements
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const el = target.closest("a, button, [role='button'], [data-cursor]");
@@ -63,6 +66,7 @@ export function CustomCursor() {
     };
   }, [isMobile, mouseX, mouseY, visible]);
 
+  // Render nothing on mobile, but hooks above still run (Rules of Hooks safe)
   if (isMobile) return null;
 
   const sizes: Record<CursorVariant, number> = {
@@ -76,7 +80,7 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Main cursor dot */}
+      {/* Main cursor */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference"
         style={{
@@ -117,12 +121,12 @@ export function CustomCursor() {
         </div>
       </motion.div>
 
-      {/* Trailing dot for depth */}
+      {/* Trailing dot */}
       <motion.div
         className="fixed top-0 left-0 w-1 h-1 rounded-full bg-amber/40 pointer-events-none z-[9997]"
         style={{
-          x: useSpring(mouseX, { damping: 40, stiffness: 200 }),
-          y: useSpring(mouseY, { damping: 40, stiffness: 200 }),
+          x: trailX,
+          y: trailY,
           translateX: "-50%",
           translateY: "-50%",
         }}

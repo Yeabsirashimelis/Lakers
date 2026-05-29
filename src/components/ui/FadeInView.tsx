@@ -14,7 +14,6 @@ interface FadeInViewProps {
   duration?: number;
   distance?: number;
   once?: boolean;
-  as?: "div" | "section" | "article" | "span";
 }
 
 const directionMap: Record<Direction, { x: number; y: number }> = {
@@ -33,7 +32,6 @@ export function FadeInView({
   duration = 0.8,
   distance,
   once = true,
-  as = "div",
 }: FadeInViewProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, margin: "-40px" });
@@ -42,10 +40,8 @@ export function FadeInView({
   const x = distance !== undefined ? (offset.x > 0 ? distance : offset.x < 0 ? -distance : 0) : offset.x;
   const y = distance !== undefined ? (offset.y > 0 ? distance : offset.y < 0 ? -distance : 0) : offset.y;
 
-  const MotionComponent = motion[as];
-
   return (
-    <MotionComponent
+    <motion.div
       ref={ref}
       className={cn(className)}
       initial={{ opacity: 0, x, y }}
@@ -57,6 +53,6 @@ export function FadeInView({
       }}
     >
       {children}
-    </MotionComponent>
+    </motion.div>
   );
 }
